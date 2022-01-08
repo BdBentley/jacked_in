@@ -13,9 +13,13 @@ def showInstructions():
         print('Add to inventory: grab item, "item name"')
 
 def showStatus(currentRoom, inventory, rooms):
+    currentRoom = main(currentRoom)
+    inventory = main(inventory)
+    rooms = main(rooms)
     print(currentRoom)
     print(inventory)
     print(rooms)
+
     # Show the players current room
     # Show the players inventory
 
@@ -55,23 +59,24 @@ def main():
         # Create a function that will allow the player to move between rooms.
 
         inventory = []
-            
-        choice = int(0)
 
-        print("Please choose from the following options")
+        print("Please choose from the following options below: ")
         print('Press 1 to move.')
         print('Press 2 to show current status.')
         print('Press 3 to pick up item.')
-        print(int(input()))
+        choice = int(input())
 
-        if choice == '1':
+        if choice == 1:
             print('Please type a direction to move: ')
+            move = input()
+            if move == rooms(''):
+                currentRoom = rooms
 
-        elif choice == '2':
+        elif choice == 2:
             showStatus()
             break
 
-        elif choice =='3':
+        elif choice == 3:
             print('Would you like to pickup the item? "y" or "n" ')
             item_choice = str(input())
             if item_choice == 'y':
