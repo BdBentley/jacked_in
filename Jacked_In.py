@@ -83,7 +83,3 @@ def main():
                 inventory += rooms.items
             else:
                 break
-
-showInstructions()
-main()
-showStatus()
