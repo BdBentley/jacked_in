@@ -2,28 +2,36 @@
 # themes with fantastical modern tech. A player will navigate the "maze" gathering items
 # in order to defeat the final boss character. You will be able to navigate between rooms
 # and even confront the final boss. Enjoy!
-# - Brian Bentley 1/7/2022
+# - Brian Bentley 1/20/2021
 
+from calendar import c
+import time
+
+# This is the show instructions function
 def showInstructions():
         # Show the main menu and commands.
         print('Welcome to jacked_in')
+        time.sleep(.5)
         print('While in virtual.city() you must collect all six items to defeat the CPU firewall Cryptoph.')
+        time.sleep(.5)
         print('Move commands: go North, go South, go East, go West')
+        time.sleep(.5)
         print('Move commands continued: Northwest, Northeast, Southwest, Southeast')
-        print('Add to inventory: grab item, "item name"')
+        time.sleep(4)
 
-def showStatus(currentRoom, inventory, rooms):
-    currentRoom = main(currentRoom)
-    inventory = main(inventory)
-    rooms = main(rooms)
-    print(currentRoom)
-    print(inventory)
-    print(rooms)
+
+# Set up the main function.
+def main():
+
+    # This is the callable show status function.
+    def showStatus():
+        print(f'You are currently in {currentRoom}')
+        print(f'You have {inventory} in your inventory')
+        print(f'This is a list of the rooms and directions you can take: {rooms}')
+        time.sleep(2)
 
     # Show the players current room
     # Show the players inventory
-
-def main():
     # Create a dictionary with rooms linked to other rooms.
     # Create an inventory which starts empty.
     rooms = {
@@ -37,49 +45,81 @@ def main():
         'USB Port': {'East': 'Keyboard','North': 'Mother Board'},
         'Keyboard': {'West': 'USB Port', 'item': 'user_input'},
         'Socket': {'West': 'Mother Board', 'East': 'CPU'},
-        'Ethernet Port': {'North': 'Network Card'}
-
+        'Ethernet Port': {'North': 'Network Card'},
+        'CPU': {}
 
     }
 
+    # Call the show instructions function.
+    showInstructions()
+
     # This will start the player in the Ethernet Port.
     currentRoom = 'Ethernet Port'
+    inventory = []
 
-    # Create a constant running loops
+
+
+    # Create a constant running loop
     while True:
-
-        # Show the players current condition.
-        # Exit the loop if the player enters the CPU room with all items,
-        # exit the loop if player enters the room without the items.
-            
-        # Prompt the players next move.
-
-        # Create an inventory that will print the players current inventory.
-
-        # Create a function that will allow the player to move between rooms.
-
-        inventory = []
-
-        print("Please choose from the following options below: ")
-        print('Press 1 to move.')
-        print('Press 2 to show current status.')
-        print('Press 3 to pick up item.')
-        choice = int(input())
-
-        if choice == 1:
-            print('Please type a direction to move: ')
-            move = input()
-            if move == rooms(''):
-                currentRoom = rooms
-
-        elif choice == 2:
-            showStatus()
+        
+        # This if statement checks if the player is in the last room without having a full inventory.
+        if currentRoom == 'CPU' and len(inventory) != 6:
+            print('The rogue CPU is now aware of your presence')
+            print('\'You have come unprepared adventurer...\'')
+            time.sleep(1)
+            print('Cryptoph the rogue CPU attacks, you have been converted into corrupt bits')
+            time.sleep(1)
+            print('Game Over')
             break
 
-        elif choice == 3:
-            print('Would you like to pickup the item? "y" or "n" ')
-            item_choice = str(input())
-            if item_choice == 'y':
-                inventory += rooms.items
-            else:
-                break
+        # This is the main game loop
+        else:
+            print('Your current location is: ' , currentRoom)
+            print("Please choose from the following options below: ")
+            time.sleep(.5)
+            print('Press 1 to move.')
+            print('Press 2 to show current status.')
+            print('Press 3 to pick up item.')
+            if rooms.item[currentRoom] == True:
+                print(f'You see {rooms.item[currentRoom]} laying on the ground')
+            choice = int(input())
+
+            # Set up the players choice of moving, checking status, and picking up an item.
+            if choice == 1:
+                time.sleep(1)
+                print(f'You are currently in {currentRoom}')
+                time.sleep(.5)
+                print('Please type a direction to move')
+                time.sleep(.5)
+                print('Example: North, South, East, West, Northwest, Northeast, Southwest, Southeast Exit\' ')
+                time.sleep(.5)
+                move = input()
+
+                # If the move is in the room list, then the current room is the new room.
+                if (move in rooms[currentRoom]):
+                    currentRoom = rooms[currentRoom][move]
+                
+                # Let the player know that there is no room in this direction
+                else:
+                    print('There is no room in this direction')
+            
+            # Call the show status function.
+            elif choice == 2:
+                time.sleep(1)
+                showStatus()
+
+            # Add the current rooms item to the inventory
+            elif choice == 3:
+                time.sleep(1)
+                if 'item' in currentRoom:
+                    inventory.append(currentRoom['item'])
+                else:
+                    print('There is no item in this room.')
+        
+
+
+            
+            
+
+
+main()
